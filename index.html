@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Stone of Enduring Flame</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #0f172a;         /* slate-900 */
+      --fg: #e2e8f0;         /* slate-200 */
+      --muted:#94a3b8;       /* slate-400 */
+      --glow:#fff8dc;        /* cornsilk, your glowing yellow */
+      --glow-shadow: rgba(255,226,89,0.6);
+      --glow-soft: rgba(255,226,89,0.35);
+    }
+    * { box-sizing:border-box; }
+    html, body { height:100%; margin:0; }
+    body{
+      background: #0f172a url('Background-3.png') center/cover fixed no-repeat;
+      color: var(--fg);
+      font-family: 'Crimson Text', serif;
+      overflow: hidden; /* lock by default; storyInner will scroll */
+    }
+
+    /* Intro overlay */
+    #intro{
+      position:fixed; inset:0; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:1rem;
+      background: rgba(0,0,0,0.65);
+      z-index: 50;
+      transition: opacity 800ms ease;
+      text-align:center;
+      padding: 2rem;
+    }
+    #intro.hidden{ opacity:0; pointer-events:none; }
+    #introTitle{
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: 0.03em;
+      color: var(--glow);
+      text-shadow: 0 0 12px var(--glow-shadow);
+      opacity: 0;
+      transition: opacity 800ms ease;
+    }
+    #introTitle.show{ opacity: 1; }
+    
+    #introSymbol{
+      width: clamp(140px, 22vw, 240px);
+      aspect-ratio: 1/1;
+      background: center/contain no-repeat url('symbol.png');
+      cursor: pointer;
+      transition: transform 160ms ease;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+    #introSymbol:active{ transform: scale(0.97); }
+
+    #tapHint{ color: var(--muted); font-size: 0.95rem; }
+
+    /* Story layer */
+    #story{
+      position:relative; height:100vh; width:100vw;
+      opacity:0; pointer-events:none; transition: opacity 800ms ease;
+    }
+    #story.visible{ opacity:1; pointer-events:auto; }
+    
+    #storyBg{
+      position:fixed; inset:0;
+      background: center/contain no-repeat url('story-image.png'),
+                  center/cover no-repeat url('Background-3.png');
+      background-color: #0f172a;
+      z-index:0;
+    }
+
+    #storyInner{
+      position:relative; height:100%; z-index:1;
+      overflow-y:auto; padding: clamp(18px, 4vw, 40px);
+      text-align:center;
+      background: none;
+    }
+    #storyInner h1{
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+      margin: 0 0 0.5rem 0;
+      color: var(--glow);
+      text-shadow: 0 0 12px var(--glow-shadow);
+    }
+    #storyInner p{
+      text-shadow: 0 0 6px rgba(0,0,0,0.6);
+    }
+    #etched{
+      font-style: italic; margin: 0 0 1rem 0; line-height: 1.5;
+      white-space: pre-line;
+      color: var(--glow);
+      text-shadow: 0 0 10px rgba(0,0,0,0.6), 0 0 14px var(--glow-soft);
+    }
+    .spacer{ height:16vh; }
+
+    /* Outro */
+    #outroControls{
+      display:flex; flex-direction:column; align-items:center; gap:1rem; padding: 2rem 0 1rem;
+    }
+    #outroSymbol{
+      width: clamp(90px, 14vw, 160px);
+      aspect-ratio: 1/1;
+      background: center/contain no-repeat url('symbol.png');
+      cursor: pointer;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+    #outroSymbol:active{ transform: scale(0.98); }
+    #outroHint{ color: var(--muted); font-size: 0.9rem; }
+
+    /* Glowing quote that fades in after outro press */
+    #outroQuote{
+      opacity:0;
+      transition: opacity 1600ms ease;
+      color: var(--glow);
+      text-shadow: 0 0 12px var(--glow-shadow);
+      font-style: italic;
+      margin: 0.25rem auto 3rem;
+      max-width: 900px;
+      padding: 0 1rem;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 14px var(--glow-soft)); }
+      50%      { filter: drop-shadow(0 0 24px var(--glow-shadow)); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO OVERLAY -->
+  <section id="intro">
+    <div id="introSymbol" aria-label="Tap to begin the whisper" role="button"></div>
+    <div id="introTitle">The Stone of Enduring Flame</div>
+    <div id="tapHint">For Aunty Ellie</div>
+  </section>
+
+  <!-- STORY LAYER -->
+  <main id="story" aria-live="polite">
+    <div id="storyBg" role="img" aria-label="Ellie seated by a small fire in a forest glade"></div>
+    <div id="storyInner">
+      <h1>The Stone of Enduring Flame</h1>
+
+      <div id="etched">
+Sharp of chin, strong of will,
+Never broken, never still.
+She shines through the dark, her fire burns brighter,
+Her name is the song that time wll admire.
+      </div>
+
+      <p>They called her Dagger Chin when she was small — a daft little family nickname, sharp on the edges but soft at the core.<br> 
+        It came from nothing more than a very pointy chin, but somehow it stuck.<br>
+        It was never meant to crown her a warrior, yet it suited her all the same.<br>
+        She was strong-willed even then, fierce enough to hold her own, stubborn enough to never back down when it mattered.</p>
+
+      <p>She grew into a fire that drew people close. Wife, mother, sister, aunt — she became the centre of the circle, the one others leaned toward without even realising it.<br>
+        Her nieces and nephews, wide-eyed and noisy, adored her in ways that needed no words.<br>
+        Flick and Ada especially carried her close, running to her with the sort of love that makes legends feel human.</p>
+
+      <p>But even legends are tested.<br>
+        A shadow tried to claim her — a silent growth, stealing words from her tongue, shaking her confidence, whispering endings she refused to hear.<br>
+        She sank, once, into the dark places, but not for long. For every time she stumbled, the ones who loved her pulled her back.<br>
+        And laughter — the kind that robs fear of its teeth — became her weapon.</p>
+
+      <p>So she fought.<br>
+        She endured the knives and the poisons, bore the weight of learning to speak again, and still kept her fire.<br>
+        Along the way, she made friends in the struggle.<br>
+        She lost one of them to the same illness, and though grief cut deep, it hardened her resolve: if the shadow wanted her, it would have to fight harder.</p>
+
+      <p>She shaved her head not as surrender, but as a declaration: <em>I am still here, and I choose what I am.</em></p>
+
+      <p>The shadow shrank. The fire grew brighter.<br>
+        And though the battle was not yet finished, she had already reclaimed more than she had lost.</p>
+
+      <p>Now, when the family gathers, she is the hub.<br>
+        The one who binds the threads.<br>
+        On her best days, her strength blazes.<br>
+        On her weaker days, it smolders — but it never dies.</p>
+
+      <p>This is her whisper: she is no saint, no flawless hero, but something better.<br>
+        She is proof that humour can disarm fear, that love is armour, and that legends are not born when a life ends.<br>
+        They are forged, here, while we still live.</p>
+
+      <p>And so Ellie walks on — wife, mother, sister, aunty, and legend — her story not finished, her stone not yet set.</p>
+
+      
+
+      <div class="spacer"></div>
+
+      <!-- OUTRO -->
+      <div id="outroControls">
+        <div id="outroSymbol" aria-label="Tap to close the whisper" role="button"></div>
+        <div id="outroHint">— With love, Flick and Ada —</div>
+      </div>
+
+      <div id="outroQuote">The battles we never ask for can still forge the strongest parts of us.<br>
+        And though legends may begin with nicknames and laughter, they live on in the love we leave blazing behind us.</em></div>
+    </div>
+  </main>
+
+  <!-- AUDIO -->
+  <audio id="storyAudio" preload="auto" playsinline data-voiceoffset="2.3">
+    <source src="ellie-intro.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="outroAudio" preload="auto" playsinline>
+    <source src="ellie-outro.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+(function(){
+  // Elements
+  const intro       = document.getElementById('intro');
+  const introSymbol = document.getElementById('introSymbol');
+  const introTitle  = document.getElementById('introTitle');
+  const story       = document.getElementById('story');
+  const storyInner  = document.getElementById('storyInner');
+  const outroSymbol = document.getElementById('outroSymbol');
+  const storyAudio  = document.getElementById('storyAudio');
+  const outroAudio  = document.getElementById('outroAudio');
+  const outroQuote  = document.getElementById('outroQuote');
+
+  if (!intro || !introSymbol || !story) return;
+
+  // Helper to reveal story
+  function revealStory(){
+    intro.classList.add('hidden');
+    setTimeout(() => {
+      intro.style.display = 'none';
+      story.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+      if (storyInner) storyInner.style.overflowY = 'auto';
+    }, 800);
+  }
+
+  let started = false;
+  introSymbol.addEventListener('click', () => {
+    if (started) return;
+    started = true;
+
+    // Title glow
+    if (introTitle) introTitle.classList.add('show');
+
+    // Start intro audio immediately on user gesture
+    let voiceOffset = 2.3;
+    if (storyAudio) {
+      const attr = parseFloat(storyAudio?.dataset?.voiceoffset);
+      if (!Number.isNaN(attr)) voiceOffset = attr;
+
+      try {
+        storyAudio.currentTime = 0;
+        const p = storyAudio.play();
+        if (p && typeof p.catch === 'function') p.catch(()=>{});
+      } catch(e){}
+    }
+
+    // Transition to story right as Flick's voice starts
+    if (storyAudio) {
+      const handler = () => {
+        if (storyAudio.currentTime >= voiceOffset) {
+          storyAudio.removeEventListener('timeupdate', handler);
+          revealStory();
+        }
+      };
+      storyAudio.addEventListener('timeupdate', handler);
+
+      // Failsafe: if 'timeupdate' is throttled, use a timer too
+      setTimeout(() => {
+        if (intro && !intro.classList.contains('hidden')) revealStory();
+      }, (voiceOffset + 0.6) * 1000);
+    } else {
+      // No audio? Just reveal after a tasteful beat
+      setTimeout(revealStory, 1200);
+    }
+  });
+
+  // Outro: pause intro audio, play outro, and fade in glowing quote
+  if (outroSymbol) {
+    outroSymbol.addEventListener('click', () => {
+      try { if (storyAudio && !storyAudio.paused) storyAudio.pause(); } catch(e){}
+      try {
+        if (outroAudio) {
+          outroAudio.currentTime = 0;
+          const p2 = outroAudio.play();
+          if (p2 && typeof p2.catch === 'function') p2.catch(()=>{});
+        }
+      } catch(e){}
+      if (outroQuote) {
+        // small delay so audio click registers, then fade in quote
+        setTimeout(() => { outroQuote.style.opacity = 1; }, 2500);
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
