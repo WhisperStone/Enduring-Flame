@@ -8,6 +8,10 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
 
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f172a">
+
+
   <style>
     :root{
       --bg: #0f172a;         /* slate-900 */
@@ -296,6 +300,16 @@ Her name is the song that time wll admire.
     });
   }
 })();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      // make sure service-worker.js sits next to index.html in /5121295/
+      navigator.serviceWorker.register('./service-worker.js', { scope: '/5121295/' })
+        .catch(()=>{ /* shrug */ });
+    });
+  }
 </script>
 </body>
 </html>
