@@ -1,4 +1,4 @@
-const CACHE_NAME = 'whisper-stone-v3';
+const CACHE_NAME = 'whisper-stone-v4';
 const ROOT = '/5121295/'; // base path for Ellie’s stone
 const ASSETS = [
   ROOT,
