@@ -1,5 +1,5 @@
-const CACHE_NAME = 'whisper-stone-v6';
-const ROOT = new URL('/', self.location)pathname; // base path for Ellie’s stone
+const CACHE_NAME = 'whisper-stone-v7';
+const ROOT = new URL('./', self.location).pathname; // base path for Ellie’s stone
 const ASSETS = [
   ROOT,
   ROOT + 'index.html',
