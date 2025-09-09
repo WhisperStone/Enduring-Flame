@@ -1,5 +1,5 @@
-const CACHE_NAME = 'whisper-stone-v5';
-const ROOT = '/5121295/'; // base path for Ellie’s stone
+const CACHE_NAME = 'whisper-stone-v6';
+const ROOT = new URL('/', self.location)pathname; // base path for Ellie’s stone
 const ASSETS = [
   ROOT,
   ROOT + 'index.html',
@@ -7,7 +7,7 @@ const ASSETS = [
   ROOT + 'story-image.png',
   ROOT + 'symbol.png',
   ROOT + 'ellie-intro.mp3',
-  ROOT + 'ellie-outro.mp3',
+  ROOT + 'ellie-outro_v2.mp3',
   ROOT + 'manifest.webmanifest',
   ROOT + 'icon-192.png',
   ROOT + 'icon-512.png',
