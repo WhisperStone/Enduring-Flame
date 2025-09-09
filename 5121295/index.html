@@ -158,7 +158,7 @@
 Sharp of chin, strong of will,
 Never broken, never still.
 She shines through the dark, her fire burns brighter,
-Her name is the song that time wll admire.
+Her name is the song that time will admire.
       </div>
 
       <p>They called her Dagger Chin when she was small — a daft little family nickname, sharp on the edges but soft at the core.<br> 
@@ -217,7 +217,7 @@ Her name is the song that time wll admire.
     <source src="ellie-intro.mp3" type="audio/mpeg">
   </audio>
   <audio id="outroAudio" preload="auto" playsinline>
-    <source src="ellie-outro_v2.mp3" type="audio/mpeg">
+    <source src="ellie-outro_v2.mp3?v=2" type="audio/mpeg">
   </audio>
 
   <script>
@@ -235,7 +235,6 @@ Her name is the song that time wll admire.
 
   if (!intro || !introSymbol || !story) return;
 
-  // Helper to reveal story
   function revealStory(){
     intro.classList.add('hidden');
     setTimeout(() => {
@@ -251,10 +250,8 @@ Her name is the song that time wll admire.
     if (started) return;
     started = true;
 
-    // Title glow
     if (introTitle) introTitle.classList.add('show');
 
-    // Start intro audio immediately on user gesture
     let voiceOffset = 2.3;
     if (storyAudio) {
       const attr = parseFloat(storyAudio?.dataset?.voiceoffset);
@@ -267,7 +264,6 @@ Her name is the song that time wll admire.
       } catch(e){}
     }
 
-    // Transition to story right as Flick's voice starts
     if (storyAudio) {
       const handler = () => {
         if (storyAudio.currentTime >= voiceOffset) {
@@ -276,29 +272,24 @@ Her name is the song that time wll admire.
         }
       };
       storyAudio.addEventListener('timeupdate', handler);
-
-      // Failsafe: if 'timeupdate' is throttled, use a timer too
       setTimeout(() => {
         if (intro && !intro.classList.contains('hidden')) revealStory();
       }, (voiceOffset + 0.6) * 1000);
     } else {
-      // No audio? Just reveal after a tasteful beat
       setTimeout(revealStory, 1200);
     }
   });
 
-  // Outro: pause intro audio, play outro, and fade in glowing quote
+  // ==== OUTRO (fixed braces + bulletproof play) ====
   if (outroSymbol) {
     outroSymbol.addEventListener('click', async () => {
       try { if (storyAudio && !storyAudio.paused) storyAudio.pause(); } catch(e){}
-      try {
-        if (outroAudio) {
+
+      if (outroAudio) {
         try {
-          // make Safari/iOS happy
           outroAudio.muted = false;
           outroAudio.volume = 1.0;
-          // force a fresh load in case the <source> was cached weirdly
-          outroAudio.load();
+          outroAudio.load();            // force fresh source
           outroAudio.currentTime = 0;
           await outroAudio.play();
           console.log('Outro playing');
@@ -316,11 +307,12 @@ Her name is the song that time wll admire.
 })();
 </script>
 
+
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       // make sure service-worker.js sits next to index.html in /5121295/
-      navigator.serviceWorker.register('./service-worker.js', { scope: '/' })
+      navigator.serviceWorker.register('./service-worker.js', { scope: './' })
         .catch(()=>{ /* swallow */ });
     });
   }
